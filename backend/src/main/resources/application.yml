@@ -9,7 +9,7 @@ app:
   cors:
     allowed-origin: ${FRONTEND_ORIGIN:http://localhost:5173}
 yandex:
-  base-url: ${YANDEX_BASE_URL:https://ai.api.cloud.yandex/v1}
+  base-url: ${YANDEX_BASE_URL:https://ai.api.cloud.yandex.net/v1}
   api-key: ${YANDEX_API_KEY:}
   project-id: ${YANDEX_PROJECT_ID:b1gfj3v8keh3qobuh6rv}
   prompt-id: ${YANDEX_PROMPT_ID:fvt27hjfedvl5f9qs3lk}

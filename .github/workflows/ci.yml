@@ -28,3 +28,11 @@ jobs:
           cache: maven
       - run: mvn -B test
         working-directory: backend
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: docker build -t uchebka-backend:ci ./backend
+      - name: Build frontend image
+        run: docker build -t uchebka-frontend:ci ./frontend

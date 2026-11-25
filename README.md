@@ -40,7 +40,9 @@ Docker Compose автоматически читает параметры из �
 
 В конфигурации по умолчанию используется агент `fvt27hjfedvl5f9qs3lk` и проект `b1gfj3v8keh3qobuh6rv`. Чтобы сменить агента, измените `YANDEX_PROMPT_ID` в `.env`.
 
-Backend вызывает Yandex Responses API по адресу `https://ai.api.cloud.yandex/v1/responses`, передаёт `OpenAI-Project` и включает инструмент `web_search` с контекстом поиска `medium`. Секретный ключ передаётся только backend-контейнеру и не встраивается во frontend.
+Backend обращается к Yandex Responses API по адресу `https://ai.api.cloud.yandex.net/v1/responses`. Это официальный hostname Yandex AI Studio; не используйте вариант `ai.api.cloud.yandex` без `.net`, поскольку такой адрес не разрешается DNS. Backend передаёт `OpenAI-Project` и включает инструмент `web_search` с контекстом поиска `medium`. Секретный ключ передаётся только backend-контейнеру и не встраивается во frontend.
+
+Если нужно изменить базовый адрес API, укажите `YANDEX_BASE_URL` в `.env`. Для обычного доступа к Responses API оставьте значение `https://ai.api.cloud.yandex.net/v1`.
 
 После запуска:
 

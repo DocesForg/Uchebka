@@ -12,23 +12,30 @@
 - Observability: Actuator + Micrometer
 - Deployment: Docker, Docker Compose
 
-## Запуск через Docker (Windows / PowerShell)
+## Запуск через Docker (Windows)
 
 Требуется установленный и запущенный Docker Desktop с поддержкой Docker Compose.
 
-В корне проекта выполните:
+1. Откройте файл `.env.example` в редакторе и вставьте свой Yandex AI Studio API key вместо `replace-me` в строке `YANDEX_API_KEY`.
+2. В корне проекта создайте рабочий файл `.env`:
 
-```powershell
-.\start.ps1
-```
+   PowerShell:
+   ```powershell
+   Copy-Item .env.example .env
+   ```
 
-Скрипт запросит `YANDEX_API_KEY` (ввод скрыт), после чего автоматически передаст ключ контейнеру и выполнит сборку и запуск:
+   CMD:
+   ```cmd
+   copy .env.example .env
+   ```
 
-```powershell
-docker compose up --build -d
-```
+3. Соберите и запустите приложение:
 
-Создавать или копировать `.env` вручную не нужно. API-ключ не сохраняется в файлах проекта и не попадает в Git. После запуска скрипт очищает переменную окружения текущего процесса.
+   ```powershell
+   docker compose up --build -d
+   ```
+
+Docker Compose автоматически читает параметры из файла `.env` в корне проекта. Не редактируйте и не коммитьте `.env`: он содержит секретный API key. Файл `.env` уже добавлен в `.gitignore`; шаблон `.env.example` остаётся в репозитории.
 
 После успешного запуска:
 
@@ -49,15 +56,19 @@ docker compose down
 docker compose logs -f
 ```
 
-Для повторной сборки запустите `.\start.ps1` ещё раз и введите ключ.
+Для повторной сборки после изменения кода:
 
-По умолчанию frontend доступен на порту 80. Если порт занят, можно задать `APP_PORT` в окружении перед запуском скрипта, например `$env:APP_PORT=8081`.
+```powershell
+docker compose up --build -d
+```
 
-Docker Compose запускает frontend через Nginx и проксирует API, Swagger и Actuator в backend. Внутренний порт backend (8080) наружу не публикуется. Yandex API key передаётся backend-контейнеру только как runtime-переменная окружения; он не встраивается во frontend-образ.
+По умолчанию frontend доступен на порту 80. Если порт занят, измените `APP_PORT` в `.env`, например на `8081`, и откройте http://localhost:8081.
+
+Docker Compose запускает frontend через Nginx и проксирует API, Swagger и Actuator в backend. Внутренний порт backend (8080) наружу не публикуется. Yandex API key передаётся только backend-контейнеру как runtime-переменная окружения; он не встраивается во frontend-образ.
 
 ## Локальный запуск без Docker
 
-Для локального запуска backend можно использовать `.env.example`: создайте `.env` вручную и заполните параметры Yandex.
+Для локального запуска backend также можно создать `.env` из `.env.example` и заполнить параметры Yandex.
 
 ### Backend (PowerShell)
 
@@ -80,4 +91,4 @@ npm run dev
 
 Приложение: http://localhost:5173
 
-Не коммитьте файл `.env` и не публикуйте API-ключ.
+Никогда не публикуйте API key и не добавляйте файл `.env` в Git.

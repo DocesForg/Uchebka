@@ -1,0 +1,3 @@
+package ru.uchebka.config;
+import java.util.Map;import org.springframework.http.*;import org.springframework.web.bind.MethodArgumentNotValidException;import org.springframework.web.bind.annotation.*;
+@RestControllerAdvice public class ApiExceptionHandler{@ExceptionHandler(MethodArgumentNotValidException.class)public ResponseEntity<Map<String,String>> validation(MethodArgumentNotValidException e){return ResponseEntity.badRequest().body(Map.of("message","Проверьте материал и параметры теста."));}@ExceptionHandler(Exception.class)public ResponseEntity<Map<String,String>> general(Exception e){return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(Map.of("message","Не удалось обработать запрос. Проверьте настройки AI-сервиса и повторите попытку."));}}

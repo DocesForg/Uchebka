@@ -12,17 +12,23 @@
 - Observability: Actuator + Micrometer
 - Deployment: Docker, Docker Compose
 
-## Запуск через Docker (рекомендуется)
+## Запуск через Docker (Windows / PowerShell)
 
-Требуется установленный Docker Desktop с включённым Docker Compose.
+Требуется установленный и запущенный Docker Desktop с поддержкой Docker Compose.
 
-1. Скопируйте `.env.docker.example` в `.env`.
-2. Откройте `.env` и укажите действительный `YANDEX_API_KEY`. При необходимости проверьте `YANDEX_PROJECT_ID` и `YANDEX_PROMPT_ID`.
-3. В корне проекта выполните:
+В корне проекта выполните:
+
+```powershell
+.\start.ps1
+```
+
+Скрипт запросит `YANDEX_API_KEY` (ввод скрыт), после чего автоматически передаст ключ контейнеру и выполнит сборку и запуск:
 
 ```powershell
 docker compose up --build -d
 ```
+
+Создавать или копировать `.env` вручную не нужно. API-ключ не сохраняется в файлах проекта и не попадает в Git. После запуска скрипт очищает переменную окружения текущего процесса.
 
 После успешного запуска:
 
@@ -43,19 +49,15 @@ docker compose down
 docker compose logs -f
 ```
 
-Пересборка после изменения исходного кода:
+Для повторной сборки запустите `.\start.ps1` ещё раз и введите ключ.
 
-```powershell
-docker compose up --build -d
-```
+По умолчанию frontend доступен на порту 80. Если порт занят, можно задать `APP_PORT` в окружении перед запуском скрипта, например `$env:APP_PORT=8081`.
 
-По умолчанию frontend доступен на порту 80. Если порт занят, задайте в `.env`, например, `APP_PORT=8081`; приложение будет доступно по адресу http://localhost:8081.
-
-Docker Compose запускает frontend через Nginx и проксирует API, Swagger и Actuator в backend. Внутренний порт backend (8080) наружу не публикуется. Ключ Yandex передаётся контейнеру через переменную окружения и не встраивается в frontend-образ.
+Docker Compose запускает frontend через Nginx и проксирует API, Swagger и Actuator в backend. Внутренний порт backend (8080) наружу не публикуется. Yandex API key передаётся backend-контейнеру только как runtime-переменная окружения; он не встраивается во frontend-образ.
 
 ## Локальный запуск без Docker
 
-Скопируйте `.env.example` в `.env` и заполните параметры Yandex.
+Для локального запуска backend можно использовать `.env.example`: создайте `.env` вручную и заполните параметры Yandex.
 
 ### Backend (PowerShell)
 

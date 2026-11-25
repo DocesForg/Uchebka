@@ -7,8 +7,8 @@ services:
     restart: unless-stopped
     environment:
       YANDEX_API_KEY: ${YANDEX_API_KEY:-}
-      YANDEX_PROJECT_ID: ${YANDEX_PROJECT_ID:-}
-      YANDEX_PROMPT_ID: ${YANDEX_PROMPT_ID:-fvt526o3mhjmd9f6l2te}
+      YANDEX_PROJECT_ID: ${YANDEX_PROJECT_ID:-b1gfj3v8keh3qobuh6rv}
+      YANDEX_PROMPT_ID: ${YANDEX_PROMPT_ID:-fvt27hjfedvl5f9qs3lk}
       YANDEX_BASE_URL: ${YANDEX_BASE_URL:-https://ai.api.cloud.yandex/v1}
       FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost}
     expose:
